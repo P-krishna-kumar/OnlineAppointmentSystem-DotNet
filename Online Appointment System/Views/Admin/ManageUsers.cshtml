@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Online_Appointment_System.Models.User>
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<h2>Manage Users</h2>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Name</td>
+            <td>@user.Email</td>
+            <td>
+                @(user.RoleID == 1 ? "Admin" : user.RoleID == 2 ? "User" : "Blocked")
+            </td>
+            <td>
+                <a href="/Admin/ToggleUserStatus/@user.UserID">
+                    @(user.RoleID == 0 ? "Unblock" : "Block")
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
