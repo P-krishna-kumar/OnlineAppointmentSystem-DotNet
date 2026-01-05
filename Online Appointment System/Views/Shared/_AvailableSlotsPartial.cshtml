@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Online_Appointment_System.Models.TimeSlot>
+
+@if (Model.Any())
+{
+    <form asp-action="Confirm" method="post">
+        <input type="hidden" name="serviceId" value="@ViewBag.ServiceId" />
+        <input type="hidden" name="appointmentDate" value="@ViewBag.AppointmentDate" />
+
+        <div class="mb-3">
+            <label class="form-label">Select Slot</label>
+            <select name="slotId" class="form-select" required>
+                <option value="">-- Select Slot --</option>
+                @foreach (var slot in Model)
+                {
+                    <option value="@slot.SlotID">@slot.StartTime - @slot.EndTime</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select User</label>
+            <select name="userId" class="form-select" required>
+                <option value="">-- Select User --</option>
+                @foreach (var u in ViewBag.Users as List<Online_Appointment_System.Models.User>)
+                {
+                    <option value="@u.UserID">@u.Name</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirm Booking</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning mt-3">No slots available for the selected date.</div>
+}
