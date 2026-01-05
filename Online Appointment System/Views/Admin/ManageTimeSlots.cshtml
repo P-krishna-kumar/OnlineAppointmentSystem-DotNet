@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Online_Appointment_System.Models.TimeSlot>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewBag.Title = "Manage Time Slots";
+}
+
+<h2>Manage Time Slots</h2>
+
+<a href="/Admin/AddTimeSlot">Add New Time Slot</a>
+
+<table border="1">
+    <tr>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Available</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var slot in Model)
+    {
+        <tr>
+            <td>@slot.Service.ServiceName</td>
+            <td>@slot.SlotDate.ToString("yyyy-MM-dd")</td>
+            <td>@slot.StartTime.ToString(@"hh\:mm")</td>
+            <td>@slot.EndTime.ToString(@"hh\:mm")</td>
+            <td>@(slot.IsAvailable ? "Yes" : "No")</td>
+            <td>
+                <a href="/Admin/ToggleSlotAvailability/@slot.SlotID">
+                    @(slot.IsAvailable ? "Disable" : "Enable")
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}

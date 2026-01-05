@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Online_Appointment_System.Models.Service>
+@{
+    ViewBag.Title = "Manage Services";
+}
+
+<h2>Services</h2>
+
+<a href="/Admin/AddService">Add New Service</a>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var service in Model)
+    {
+        <tr>
+            <td>@service.ServiceName</td>
+            <td>@service.Description</td>
+            <td>
+                <a href="/Admin/EditService/@service.ServiceID">Edit</a> |
+                <a href="/Admin/DeleteService/@service.ServiceID">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
