@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Online_Appointment_System.Models.Appointment>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewBag.Title = "Manage Appointments";
+}
+
+<h2>Manage Appointments</h2>
+
+<form method="get" asp-action="ManageAppointments">
+    <label>Status:</label>
+    <select name="status">
+        <option value="">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Cancelled">Cancelled</option>
+    </select>
+
+    <label>Service:</label>
+    <select name="serviceId" asp-items="ViewBag.Services">
+        <option value="">All</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
+
+<table border="1">
+    <tr>
+        <th>User</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Slot</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var appt in Model)
+    {
+        <tr>
+            <td>@appt.User.Name</td>
+            <td>@appt.Service.ServiceName</td>
+            <td>@appt.AppointmentDate.ToString("yyyy-MM-dd")</td>
+            @* <td>@appt.TimeSlot.StartTime.ToString(@"hh\:mm") - @appt.TimeSlot.EndTime.ToString(@"hh\:mm")</td> *@
+            <td>@appt.Status</td>
+            <td>
+                @if (appt.Status == "Pending")
+                {
+                    <a href="/Admin/ApproveAppointment/@appt.AppointmentID">Approve</a>
+            
+                    <span> | </span>
+                        
+                            }
+                @if (appt.Status != "Cancelled")
+                {
+                    <a href="/Admin/CancelAppointment/@appt.AppointmentID">Cancel</a>
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}

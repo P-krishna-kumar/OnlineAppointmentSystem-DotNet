@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<div>
+    <p>Total Users: @ViewBag.TotalUsers</p>
+    <p>Total Appointments: @ViewBag.TotalAppointments</p>
+    <p>Pending Appointments: @ViewBag.PendingAppointments</p>
+    <p>Today's Appointments: @ViewBag.TodaysAppointments</p>
+</div>
+
+<a href="/Admin/ManageServices">Manage Services</a> |
+<a href="/Admin/ManageTimeSlots">Manage Time Slots</a> |
+<a href="/Admin/ManageAppointments">Manage Appointments</a> |
+<a href="/Admin/ManageUsers">Manage Users</a>
