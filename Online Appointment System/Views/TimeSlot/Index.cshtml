@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Online_Appointment_System.Models.Appointment>
+
+@{
+    ViewBag.Title = "Appointments";
+}
+
+<h2>Appointments</h2>
+
+<a class="btn btn-primary mb-3" href="@Url.Action("Create")">Book New Appointment</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr class="@(a.Status == "Confirmed" ? "table-success" : (a.Status == "Cancelled" ? "table-danger" : ""))">
+                <td>@a.AppointmentID</td>
+                <td>@a.User?.Name</td>
+                <td>@a.Service?.ServiceName</td>
+                <td>@a.AppointmentDate.ToShortDateString()</td>
+                <td>@a.Slot?.StartTime</td>
+                <td>@a.Slot?.EndTime</td>
+                <td>@a.Status</td>
+                <td>
+                    <a class="btn btn-sm btn-success me-1" href="@Url.Action("Edit", new { id = a.AppointmentID })">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = a.AppointmentID })">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

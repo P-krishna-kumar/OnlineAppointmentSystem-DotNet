@@ -1,0 +1,35 @@
+﻿<h2>Book Appointment</h2>
+
+<form id="bookForm" method="post" asp-action="GetAvailableSlots">
+    <label>Select Service:</label>
+    <select name="serviceId" id="serviceId">
+        @foreach (var s in ViewBag.Services)
+        {
+            <option value="@s.ServiceID">@s.ServiceName</option>
+        }
+    </select>
+
+    <label>Select Date:</label>
+    <input type="date" name="selectedDate" id="selectedDate" required />
+
+    <button type="button" onclick="getSlots()">Check Available Slots</button>
+</form>
+
+<div id="slots">
+    <!-- Available slots will load here -->
+</div>
+
+<script>
+    function getSlots() {
+        var serviceId = document.getElementById("serviceId").value;
+        var selectedDate = document.getElementById("selectedDate").value;
+
+        fetch('/User/GetAvailableSlots', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ serviceId: serviceId, selectedDate: selectedDate })
+        })
+        .then(response => response.text())
+        .then(html => { document.getElementById("slots").innerHTML = html; });
+    }
+</script>

@@ -5,21 +5,25 @@ namespace Online_Appointment_System.Models
 {
     public class User
     {
-        public int UserId { get; set; }
-
+        [Key]
+        public int UserID { get; set; }
+        [Required, MaxLength(150)]
+        public string Name { get; set; }
         [Required, MaxLength(100)]
-        public required string Name { get; set; }
+        public string Email { get; set; }
+        [Required]
+        public string Password { get; set; }
+        public int RoleID { get; set; }
 
-        [Required, MaxLength(100)]
-        public required string Email { get; set; }
-
-        [Required, MaxLength(100)]
-        public required string Password { get; set; }
-
-        public int RoleId { get; set; }
-
-        // Navigation
-        public required string Role { get; set; }
-        public required ICollection<Appointment> Appointments { get; set; }
+        public Roles Roles { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
     }
+
+    public enum Roles
+    {
+        Admin,
+        User
+    }
+
+
 }

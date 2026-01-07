@@ -1,0 +1,27 @@
+﻿@model Online_Appointment_System.Models.Appointment
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="@ViewData["Action"]" method="post">
+    <div>
+        <label>User</label>
+        <select asp-for="UserID" asp-items="@(new SelectList(ViewBag.Users, "UserID", "Name"))"></select>
+    </div>
+    <div>
+        <label>Service</label>
+        <select asp-for="ServiceID" asp-items="@(new SelectList(ViewBag.Services, "ServiceID", "ServiceName"))"></select>
+    </div>
+    <div>
+        <label>Slot</label>
+        <select asp-for="SlotID" asp-items="@(new SelectList(ViewBag.Slots, "SlotID", "StartTime"))"></select>
+    </div>
+    <div>
+        <label>Date</label>
+        <input asp-for="AppointmentDate" type="date" />
+    </div>
+    <div>
+        <label>Status</label>
+        <input asp-for="Status" />
+    </div>
+    <button type="submit">Save</button>
+</form>

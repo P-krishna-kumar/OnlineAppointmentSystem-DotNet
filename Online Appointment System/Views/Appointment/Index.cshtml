@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Online_Appointment_System.Models.Appointment>
+
+<h2>Appointments</h2>
+<a asp-action="Create">Create New Appointment</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Service</th>
+        <th>Slot</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@a.AppointmentID</td>
+            <td>@a.User.Name</td>
+            <td>@a.Service.ServiceName</td>
+            <td>@a.Slot.StartTime - @a.Slot.EndTime</td>
+            <td>@a.AppointmentDate.ToShortDateString()</td>
+            <td>@a.Status</td>
+            <td>@a.CreatedAt</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@a.AppointmentID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@a.AppointmentID">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

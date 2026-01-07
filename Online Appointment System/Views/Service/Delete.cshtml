@@ -1,0 +1,17 @@
+﻿@model Online_Appointment_System.Models.Service
+
+@{
+    ViewBag.Title = "Delete Service";
+}
+
+<h2>Delete Service</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete <strong>@Model.ServiceName</strong>?
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="ServiceID" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancel</a>
+</form>

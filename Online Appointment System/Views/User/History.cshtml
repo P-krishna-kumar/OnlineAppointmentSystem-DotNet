@@ -1,0 +1,32 @@
+﻿@model List<Online_Appointment_System.Models.Appointment>
+
+<h2>Appointment History</h2>
+
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@a.Service.ServiceName</td>
+            <td>@a.SlotDate.ToShortDateString()</td>
+            <td>@a.StartTime - @a.EndTime</td>
+            <td>@a.Status</td>
+            <td>
+                @if (a.Status == "Pending")
+                {
+                    <a asp-action="Cancel" asp-route-id="@a.AppointmentID">Cancel</a>
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+        </tr>
+    }
+</table>
