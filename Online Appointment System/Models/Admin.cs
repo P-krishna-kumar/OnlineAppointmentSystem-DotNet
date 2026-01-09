@@ -1,6 +1,6 @@
 ﻿namespace Online_Appointment_System.Models
 {
-    public class TimeSlot
+    public class Admin
     {
     }
 }
