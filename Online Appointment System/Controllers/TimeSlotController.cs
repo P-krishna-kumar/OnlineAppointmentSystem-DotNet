@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Online_Appointment_System.DAL;
 using Online_Appointment_System.Models;
-
+using static Online_Appointment_System.DAL.TimeSlatDAL;
 
 namespace Online_Appointment_System.Controllers
 {
-    public class ServiceController : Controller
+    public class TimeSlotController : Controller
     {
-        private readonly ServiceDAL _serviceDal;
+        private readonly TimeSlotDAL _slotDal;
 
-        public ServiceController(ServiceDAL serviceDal)
+        public TimeSlotController(TimeSlotDAL slotDal)
         {
-            _serviceDal = serviceDal;
+            _slotDal = slotDal;
         }
 
         public IActionResult Index()
         {
-            var dt = _serviceDal.ListService();
+            var dt = _slotDal.ListTimeSlot();
             return View(dt);
         }
 
@@ -27,11 +26,11 @@ namespace Online_Appointment_System.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Service model)
+        public IActionResult Create(TimeSlot model)
         {
             if (ModelState.IsValid)
             {
-                _serviceDal.AddService(model);
+                _slotDal.AddTimeSlot(model);
                 return RedirectToAction("Index");
             }
 
