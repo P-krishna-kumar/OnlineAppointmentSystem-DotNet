@@ -1,0 +1,48 @@
+﻿@model System.Data.DataTable
+
+<h2>All Appointments</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Appointment ID</th>
+            <th>User</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Slot</th>
+            <th>Status</th>
+            <th>Update</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>@row["AppointmentId"]</td>
+                <td>@row["UserName"]</td>
+                <td>@row["ServiceName"]</td>
+                <td>@row["AppointmentDate"]</td>
+                <td>@row["SlotFrom"] - @row["SlotTo"]</td>
+                <td>@row["Status"]</td>
+
+                <td>
+                    <a class="btn btn-success btn-sm"
+                       href="/Admin/UpdateStatus?id=@row["AppointmentId"]&status=Approved">
+                        Approve
+                    </a>
+
+                    <a class="btn btn-danger btn-sm"
+                       href="/Admin/UpdateStatus?id=@row["AppointmentId"]&status=Rejected">
+                        Reject
+                    </a>
+
+                    <a class="btn btn-info btn-sm"
+                       href="/Admin/UpdateStatus?id=@row["AppointmentId"]&status=Completed">
+                        Complete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

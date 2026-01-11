@@ -1,0 +1,73 @@
+﻿<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow bg-primary text-white">
+            <div class="card-body">
+                <h4>@ViewBag.TotalUsers</h4>
+                <p>Total Users</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow bg-success text-white">
+            <div class="card-body">
+                <h4>@ViewBag.TotalServices</h4>
+                <p>Total Services</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow bg-warning text-dark">
+            <div class="card-body">
+                <h4>@ViewBag.TotalAppointments</h4>
+                <p>Total Appointments</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow bg-info text-white">
+            <div class="card-body">
+                <h4>@ViewBag.TodayAppointments</h4>
+                <p>Today's Appointments</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h3 class="mt-4 mb-3">Appointment Status</h3>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-secondary text-white">
+            <div class="card-body">
+                <h4>@ViewBag.PendingCount</h4>
+                <p>Pending</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-success text-white">
+            <div class="card-body">
+                <h4>@ViewBag.ApprovedCount</h4>
+                <p>Approved</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-dark text-white">
+            <div class="card-body">
+                <h4>@ViewBag.CompletedCount</h4>
+                <p>Completed</p>
+            </div>
+        </div>
+    </div>
+</div>
