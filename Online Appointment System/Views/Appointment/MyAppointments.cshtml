@@ -1,0 +1,28 @@
+﻿@model System.Data.DataTable
+
+<h2>My Appointments</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>AppointmentId</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>@row["AppointmentId"]</td>
+                <td>@row["ServiceId"]</td>
+                <td>@row["AppointmentDate"]</td>
+                <td>@row["TimeSlotId"]</td>
+                <td>@row["Status"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
