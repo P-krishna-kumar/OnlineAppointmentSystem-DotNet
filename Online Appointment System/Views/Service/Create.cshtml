@@ -1,27 +1,25 @@
 ﻿@model Online_Appointment_System.Models.Service
 
-@{
-    ViewBag.Title = "Add Service";
-}
+<h2 class="text-primary mb-4">Add Service</h2>
 
-<h2>Add Service</h2>
+<form asp-action="AddService" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="ServiceName"></label>
+        <input type="text" class="form-control" asp-for="ServiceName" required />
+        <span class="text-danger" asp-validation-for="ServiceName"></span>
+    </div>
 
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="ServiceName" class="form-label"></label>
-        <input asp-for="ServiceName" class="form-control" />
-        <span asp-validation-for="ServiceName" class="text-danger"></span>
+    <div class="form-group mb-3">
+        <label asp-for="Description"></label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
     </div>
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
+
+    <div class="form-group mb-3">
+        <label asp-for="Price"></label>
+        <input type="number" class="form-control" asp-for="Price" required />
+        <span class="text-danger" asp-validation-for="Price"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancel</a>
+
+    <button class="btn btn-success">Save</button>
 </form>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

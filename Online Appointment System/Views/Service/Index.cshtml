@@ -1,32 +1,30 @@
-﻿@model IEnumerable<Online_Appointment_System.Models.Service>
+﻿@model System.Data.DataTable
 
-@{
-    ViewBag.Title = "Services";
-}
+<h2>Service List</h2>
 
-<h2>Services</h2>
-
-<a class="btn btn-primary mb-3" href="@Url.Action("Create")">Add New Service</a>
+<a class="btn btn-primary mb-3" href="/Service/Create">Add New Service</a>
 
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
+            <th>ServiceId</th>
+            <th>Service Name</th>
             <th>Description</th>
-            <th>Actions</th>
+            <th>Price</th>
+            <th>Status</th>
         </tr>
     </thead>
+
     <tbody>
-        @foreach (var service in Model)
+        @foreach (System.Data.DataRow row in Model.Rows)
         {
             <tr>
-                <td>@service.ServiceID</td>
-                <td>@service.ServiceName</td>
-                <td>@service.Description</td>
+                <td>@row["ServiceId"]</td>
+                <td>@row["ServiceName"]</td>
+                <td>@row["Description"]</td>
+                <td>₹ @row["Price"]</td>
                 <td>
-                    <a class="btn btn-sm btn-success" href="@Url.Action("Edit", new { id = service.ServiceID })">Edit</a>
-                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = service.ServiceID })">Delete</a>
+                    @(Convert.ToInt32(row["Status"]) == 1 ? "Active" : "Inactive")
                 </td>
             </tr>
         }
