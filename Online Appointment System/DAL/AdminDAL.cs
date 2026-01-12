@@ -40,6 +40,26 @@ namespace Online_Appointment_System.DAL
             }
             return admin;
         }
+        public DataTable DashboardStats()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(_conn))
+            {
+                SqlCommand cmd = new SqlCommand("sp_Admin_Dashboard_Stats", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            return dt;
+        }
+
+
+
+
+
 
     }
 }
