@@ -75,5 +75,55 @@ namespace Online_Appointment_System.DAL
                 return cmd.ExecuteNonQuery();
             }
         }
+
+        public string GetUserEmailByAppointment(int appointmentId)
+        {
+            using (SqlConnection con = new SqlConnection(_conn))
+            {
+                SqlCommand cmd = new SqlCommand(@"
+            SELECT U.Email 
+            FROM Appointment A
+            JOIN Users U ON A.UserId = U.UserId
+            WHERE AppointmentId=@AppointmentId
+        ", con);
+
+                cmd.Parameters.AddWithValue("@AppointmentId", appointmentId);
+
+                con.Open();
+                return cmd.ExecuteScalar()?.ToString();
+            }
+        }
+
+        internal void SendEmail(string email, string v, string body)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DataTable GetAppointmentById(int id)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(_conn))
+            {
+                SqlCommand cmd = new SqlCommand(@"
+            SELECT A.*, U.FullName, U.Email, 
+                   S.ServiceName,
+                   T.SlotFrom, T.SlotTo
+            FROM Appointment A
+            JOIN Users U ON A.UserId = U.UserId
+            JOIN Service S ON A.ServiceId = S.ServiceId
+            JOIN TimeSlot T ON A.TimeSlotId = T.TimeSlotId
+            WHERE AppointmentId=@id
+        ", con);
+
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+
+            return dt;
+        }
+
     }
 }

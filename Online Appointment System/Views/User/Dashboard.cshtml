@@ -1,25 +1,71 @@
-﻿@model List<Online_Appointment_System.Models.Appointment>
+﻿<h2 class="mb-4">Welcome, @ViewBag.UserName 👋</h2>
 
-<h2>Dashboard</h2>
+<div class="row">
 
-<p>Total Appointments: @ViewBag.TotalAppointments</p>
-<p>Upcoming Appointments: @ViewBag.UpcomingAppointments</p>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-primary text-white">
+            <div class="card-body">
+                <h3>@ViewBag.TotalAppointments</h3>
+                <p>Total Appointments</p>
+            </div>
+        </div>
+    </div>
 
-<table border="1" cellpadding="5">
-    <tr>
-        <th>Service</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Status</th>
-    </tr>
-@foreach(var a in Model)
-{
-    <tr>
-        <td>@a.Service.ServiceName</td>
-        <td>@a.SlotDate.ToShortDateString()</td>
-        <td>@a.StartTime - @a.EndTime</td>
-        <td>@a.Status</td>
-    </tr>
-}
-</table>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-success text-white">
+            <div class="card-body">
+                <h3>@ViewBag.Upcoming</h3>
+                <p>Upcoming Appointment</p>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-info text-white">
+            <div class="card-body">
+                <h3>@ViewBag.Last</h3>
+                <p>Last Appointment</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<h3 class="mt-4 mb-3">Appointment Status Summary</h3>
+
+<div class="row">
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-warning">
+            <div class="card-body">
+                <h3>@ViewBag.Pending</h3>
+                <p>Pending</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-success text-white">
+            <div class="card-body">
+                <h3>@ViewBag.Approved</h3>
+                <p>Approved</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card shadow bg-dark text-white">
+            <div class="card-body">
+                <h3>@ViewBag.Completed</h3>
+                <p>Completed</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr />
+
+<h3 class="mt-4">Quick Actions</h3>
+<a href="/Appointment/Create" class="btn btn-primary mt-2">Book New Appointment</a>
+<a href="/Appointment/MyAppointments" class="btn btn-secondary mt-2">View My Appointments</a>

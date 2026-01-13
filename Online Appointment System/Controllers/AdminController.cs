@@ -6,6 +6,7 @@ namespace Online_Appointment_System.Controllers
     public class AdminController : Controller
     {
         private readonly AppointmentDAL _apptDal;
+        private readonly AppointmentDAL _email;
 
         public AdminController(AppointmentDAL apptDal)
         {
@@ -28,6 +29,12 @@ namespace Online_Appointment_System.Controllers
         public IActionResult UpdateStatus(int id, string status)
         {
             _apptDal.UpdateStatus(id, status);
+
+            string email = _apptDal.GetUserEmailByAppointment(id);
+            string body = $"<h3>Your Appointment Status Updated</h3><p>Status: <strong>{status}</strong></p>";
+
+            _email.SendEmail(email, "Appointment Status Update", body);
+
             return RedirectToAction("Appointments");
         }
         public IActionResult Index()
@@ -46,6 +53,7 @@ namespace Online_Appointment_System.Controllers
             return View();
         }
 
+       
 
 
 

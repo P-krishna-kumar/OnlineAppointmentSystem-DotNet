@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Microsoft.AspNetCore.Mvc;
 using Online_Appointment_System.DAL;
 using Online_Appointment_System.Models;
+using OnlineAppointmentSystem.Helpers;
 using static Online_Appointment_System.DAL.TimeSlatDAL;
 
 namespace Online_Appointment_System.Controllers
@@ -11,7 +14,7 @@ namespace Online_Appointment_System.Controllers
         private readonly AppointmentDAL _appointmentDAL;
         private readonly ServiceDAL _serviceDAL;
         private readonly TimeSlotDAL _slotDAL;
-
+        private readonly EmailHelper _email;
         public AppointmentController(AppointmentDAL appointmentDAL, ServiceDAL serviceDAL, TimeSlotDAL slotDAL)
         {
             _appointmentDAL = appointmentDAL;
@@ -45,5 +48,106 @@ namespace Online_Appointment_System.Controllers
             var dt = _appointmentDAL.GetUserAppointments(userId);
             return View(dt);
         }
+
+        //AJAX APPOINTMENT BOOKING(FULL SYSTEM)
+
+         
+
+
+
+        public AppointmentController(AppointmentDAL appointmentDAL, ServiceDAL serviceDAL,
+    TimeSlotDAL slotDAL, EmailHelper email)
+        {
+            _appointmentDAL = appointmentDAL;
+            _serviceDAL = serviceDAL;
+            _slotDAL = slotDAL;
+            _email = email;
+        }
+
+        [HttpPost]
+        public JsonResult AjaxCreate([FromBody] Appointment model)
+        {
+            try
+            {
+                if (HttpContext.Session.GetString("UserId") == null)
+                {
+                    return Json(new { status = false, message = "Not Logged In" });
+                }
+
+                model.UserId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+
+                _appointmentDAL.AddAppointment(model);
+
+                // ------------ SEND EMAIL -------------
+                string email = HttpContext.Session.GetString("UserEmail");
+
+                string body = $@"
+            <h3>Appointment Confirmation</h3>
+            <p>Your appointment has been booked successfully!</p>
+            <p><strong>Date:</strong> {model.AppointmentDate}</p>
+            <p><strong>Service ID:</strong> {model.ServiceId}</p>
+            <p><strong>Time Slot ID:</strong> {model.TimeSlotId}</p>
+            <br/>
+            <p>Thank you for using our service.</p>
+        ";
+
+                _email.SendEmail(email, "Appointment Confirmed", body);
+
+                return Json(new { status = true, message = "Appointment Booked Successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = false, message = ex.Message });
+            }
+        }
+
+        public IActionResult DownloadSlip(int id)
+        {
+            var dt = _appointmentDAL.GetAppointmentById(id);
+
+            if (dt.Rows.Count == 0)
+                return Content("Invalid Appointment");
+
+            var row = dt.Rows[0];
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Document doc = new Document(PageSize.A4);
+                PdfWriter.GetInstance(doc, ms);
+                doc.Open();
+
+                // Title
+                var title = new Paragraph("APPOINTMENT SLIP\n\n");
+                title.Alignment = Element.ALIGN_CENTER;
+                title.Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+                doc.Add(title);
+
+                // Details Table
+                PdfPTable table = new PdfPTable(2);
+                table.WidthPercentage = 100;
+
+                void AddRow(string label, string value)
+                {
+                    table.AddCell(new Phrase(label));
+                    table.AddCell(new Phrase(value));
+                }
+
+                AddRow("Appointment ID", row["AppointmentId"].ToString());
+                AddRow("User", row["FullName"].ToString());
+                AddRow("Service", row["ServiceName"].ToString());
+                AddRow("Date", row["AppointmentDate"].ToString());
+                AddRow("Time Slot", row["SlotFrom"] + " - " + row["SlotTo"]);
+                AddRow("Status", row["Status"].ToString());
+                AddRow("Booking Date", row["BookingDate"].ToString());
+
+                doc.Add(table);
+
+                doc.Close();
+                return File(ms.ToArray(), "application/pdf", "AppointmentSlip.pdf");
+            }
+        }
+        
+
+
     }
 }

@@ -10,6 +10,8 @@
             <th>Date</th>
             <th>Time Slot</th>
             <th>Status</th>
+            <th>Download</th>
+
         </tr>
     </thead>
 
@@ -22,6 +24,12 @@
                 <td>@row["AppointmentDate"]</td>
                 <td>@row["TimeSlotId"]</td>
                 <td>@row["Status"]</td>
+                <td>
+                    <a href="/Appointment/DownloadSlip?id=@row["AppointmentId"]"
+                       class="btn btn-primary btn-sm">
+                        PDF
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

@@ -61,5 +61,24 @@ namespace Online_Appointment_System.DAL
             return user;
         }
 
+        public DataTable UserDashboardStats(int userId)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(_conn))
+            {
+                SqlCommand cmd = new SqlCommand("sp_User_Dashboard_Stats", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@UserId", userId);
+
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            return dt;
+        }
+
+
     }
 }
