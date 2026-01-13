@@ -1,0 +1,52 @@
+﻿@model System.Data.DataTable
+
+<h2>User Management</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>UserId</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>@row["UserId"]</td>
+                <td>@row["FullName"]</td>
+                <td>@row["Email"]</td>
+                <td>@row["Mobile"]</td>
+
+                <td>
+                    @if (Convert.ToInt32(row["Status"]) == 1)
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Blocked</span>
+                    }
+                </td>
+
+                <td>
+                    @if (Convert.ToInt32(row["Status"]) == 1)
+                    {
+                        <a href="/Admin/Block?id=@row["UserId"]" class="btn btn-warning btn-sm">Block</a>
+                    }
+                    else
+                    {
+                        <a href="/Admin/Unblock?id=@row["UserId"]" class="btn btn-success btn-sm">Unblock</a>
+                    }
+
+                    <a href="/Admin/Delete?id=@row["UserId"]" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

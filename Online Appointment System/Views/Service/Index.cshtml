@@ -12,6 +12,8 @@
             <th>Description</th>
             <th>Price</th>
             <th>Status</th>
+            <th>Actions</th>
+
         </tr>
     </thead>
 
@@ -26,6 +28,16 @@
                 <td>
                     @(Convert.ToInt32(row["Status"]) == 1 ? "Active" : "Inactive")
                 </td>
+                <td>
+                    <a href="/Service/Edit?id=@row["ServiceId"]" class="btn btn-warning btn-sm">Edit</a>
+
+                    <a href="/Service/ToggleStatus?id=@row["ServiceId"]" class="btn btn-info btn-sm">
+                        @(Convert.ToInt32(row["Status"]) == 1 ? "Deactivate" : "Activate")
+                    </a>
+
+                    <a href="/Service/Delete?id=@row["ServiceId"]" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+
             </tr>
         }
     </tbody>

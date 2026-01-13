@@ -1,28 +1,24 @@
 ﻿@model Online_Appointment_System.Models.Service
 
-@{
-    ViewBag.Title = "Edit Service";
-}
-
 <h2>Edit Service</h2>
 
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="ServiceID" />
-    <div class="mb-3">
-        <label asp-for="ServiceName" class="form-label"></label>
-        <input asp-for="ServiceName" class="form-control" />
-        <span asp-validation-for="ServiceName" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancel</a>
-</form>
+<form method="post">
+    <input type="hidden" asp-for="ServiceId" />
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+    <div class="form-group">
+        <label>Service Name</label>
+        <input type="text" class="form-control" asp-for="ServiceName" required />
+    </div>
+
+    <div class="form-group mt-3">
+        <label>Description</label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+    </div>
+
+    <div class="form-group mt-3">
+        <label>Price</label>
+        <input type="number" class="form-control" asp-for="Price" required />
+    </div>
+
+    <button class="btn btn-primary mt-3">Update</button>
+</form>

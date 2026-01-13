@@ -7,7 +7,12 @@ namespace Online_Appointment_System.Controllers
     {
         private readonly AppointmentDAL _apptDal;
         private readonly AppointmentDAL _email;
+        private readonly UserDAL _userDal;
 
+        public AdminController(UserDAL userDal)
+        {
+            _userDal = userDal;
+        }
         public AdminController(AppointmentDAL apptDal)
         {
             _apptDal = apptDal;
@@ -53,8 +58,34 @@ namespace Online_Appointment_System.Controllers
             return View();
         }
 
-       
 
+        // User List Page
+        public IActionResult Users()
+        {
+            var dt = _userDal.GetAllUsers();
+            return View(dt);
+        }
+
+        // Block User
+        public IActionResult Block(int id)
+        {
+            _userDal.BlockUser(id);
+            return RedirectToAction("Users");
+        }
+
+        // Unblock User
+        public IActionResult Unblock(int id)
+        {
+            _userDal.UnblockUser(id);
+            return RedirectToAction("Users");
+        }
+
+        // Delete User
+        public IActionResult Delete(int id)
+        {
+            _userDal.DeleteUser(id);
+            return RedirectToAction("Users");
+        }
 
 
     }

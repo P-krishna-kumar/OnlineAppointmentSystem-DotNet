@@ -1,4 +1,4 @@
-﻿@model Online_Appointment_System.Models.Appointment
+﻿@* @model Online_Appointment_System.Models.Appointment
 
 @{
     ViewBag.Title = "Delete Appointment";
@@ -9,12 +9,12 @@
 <div class="alert alert-danger">
     Are you sure you want to delete the appointment for <strong>@Model.User?.Name</strong>
     with <strong>@Model.Service?.ServiceName</strong> on
-    @* <strong>@Model.TimeSlot?.SlotDate.ToShortDateString()</strong> *@
-    @* from <strong>@Model.TimeSlot?.StartTime</strong> to <strong>@Model.TimeSlot?.EndTime</strong>? *@
+     <strong>@Model.TimeSlot?.SlotDate.ToShortDateString()</strong>
+    from <strong>@Model.TimeSlot?.StartTime</strong> to <strong>@Model.TimeSlot?.EndTime</strong>?
 </div>
 
 <form asp-action="DeleteConfirmed" method="post">
     <input type="hidden" asp-for="AppointmentID" />
     <button type="submit" class="btn btn-danger">Delete</button>
     <a class="btn btn-secondary" href="@Url.Action("Index")">Cancel</a>
-</form>
+</form>  *@
