@@ -52,6 +52,26 @@ namespace Online_Appointment_System.DAL
 
                 return dt;
             }
+
+            internal void DeleteTimeSlot(int id)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal object GetById(int id)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void ToggleStatus(int id)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void UpdateTimeSlot(TimeSlot model)
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
