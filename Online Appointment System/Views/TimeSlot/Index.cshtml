@@ -11,6 +11,8 @@
             <th>Slot From</th>
             <th>Slot To</th>
             <th>Status</th>
+            <th>Actions</th>
+
         </tr>
     </thead>
 
@@ -22,6 +24,16 @@
                 <td>@row["SlotFrom"]</td>
                 <td>@row["SlotTo"]</td>
                 <td>@(Convert.ToInt32(row["Status"]) == 1 ? "Active" : "Inactive")</td>
+                <td>
+                    <a href="/TimeSlot/Edit?id=@row["TimeSlotId"]" class="btn btn-warning btn-sm">Edit</a>
+
+                    <a href="/TimeSlot/ToggleStatus?id=@row["TimeSlotId"]" class="btn btn-info btn-sm">
+                        @(Convert.ToInt32(row["Status"]) == 1 ? "Deactivate" : "Activate")
+                    </a>
+
+                    <a href="/TimeSlot/Delete?id=@row["TimeSlotId"]" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+
             </tr>
         }
     </tbody>
