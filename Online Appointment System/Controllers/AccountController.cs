@@ -7,20 +7,15 @@ namespace Online_Appointment_System.Controllers
     public class AccountController : Controller
     {
         private readonly AdminDAL _adminDal;
-
-        public AccountController(AdminDAL adminDal)
-        {
-            _adminDal = adminDal;
-        }
-
         private readonly UserDAL _userDal;
 
-        public AccountController(UserDAL userDal)
+        public AccountController(AdminDAL adminDal, UserDAL userDal)
         {
+            _adminDal = adminDal;
             _userDal = userDal;
         }
 
-
+        
 
         [HttpGet]
         public IActionResult AdminLogin()
