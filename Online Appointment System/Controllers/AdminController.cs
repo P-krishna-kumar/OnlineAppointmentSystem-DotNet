@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Appointment_System.DAL;
+using System.Data;
 
 namespace Online_Appointment_System.Controllers
 {
@@ -85,6 +86,61 @@ namespace Online_Appointment_System.Controllers
         {
             _userDal.DeleteUser(id);
             return RedirectToAction("Users");
+        }
+
+        public IActionResult Calendar()
+        {
+            return View();
+        }
+        public JsonResult CalendarEvents()
+        {
+            var dt = _apptDal.AdminAppointmentsListForCalendar();
+
+            List<object> events = new List<object>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string color = "#2980b9"; // Pending blue
+
+                switch (row["Status"].ToString())
+                {
+                    case "Approved": color = "#27ae60"; break;  // green
+                    case "Completed": color = "#7f8c8d"; break; // grey
+                    case "Rejected": color = "#c0392b"; break;  // red
+                }
+
+                events.Add(new
+                {
+                    id = row["AppointmentId"],
+                    title = row["ServiceName"] + " - " + row["UserName"],
+                    start = row["AppointmentDate"],
+                    color = color
+                });
+            }
+
+            return Json(events);
+        }
+
+        public IActionResult CalendarEventDetails(int id)
+        {
+            var dt = _apptDal.GetAppointmentById(id);
+
+            if (dt.Rows.Count == 0)
+                return Content("No Details Found");
+
+            var r = dt.Rows[0];
+
+            string html = $@"
+        <p><strong>Appointment ID:</strong> {r["AppointmentId"]}</p>
+        <p><strong>User:</strong> {r["FullName"]}</p>
+        <p><strong>Service:</strong> {r["ServiceName"]}</p>
+        <p><strong>Date:</strong> {r["AppointmentDate"]}</p>
+        <p><strong>Time Slot:</strong> {r["SlotFrom"]} - {r["SlotTo"]}</p>
+        <p><strong>Status:</strong> {r["Status"]}</p>
+        <p><strong>Booking Date:</strong> {r["BookingDate"]}</p>
+    ";
+
+            return Content(html);
         }
 
 

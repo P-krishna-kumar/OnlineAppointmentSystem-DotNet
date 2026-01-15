@@ -124,6 +124,26 @@ namespace Online_Appointment_System.DAL
 
             return dt;
         }
+        public DataTable AdminAppointmentsListForCalendar()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(_conn))
+            {
+                SqlCommand cmd = new SqlCommand(@"
+            SELECT A.AppointmentId, A.AppointmentDate, A.Status,
+                   U.FullName AS UserName,
+                   S.ServiceName
+            FROM Appointment A
+            JOIN Users U ON A.UserId = U.UserId
+            JOIN Service S ON A.ServiceId = S.ServiceId
+        ", con);
+
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            return dt;
+        }
 
     }
 }

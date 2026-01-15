@@ -1,6 +1,8 @@
 
 
+using Online_Appointment_System.DAL;
 using OnlineAppointmentSystem.Helpers;
+using static Online_Appointment_System.DAL.TimeSlatDAL;
 
 
 
@@ -10,6 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<EmailHelper>();
 
+builder.Services.AddTransient<AdminDAL>();
+builder.Services.AddTransient<UserDAL>();
+builder.Services.AddTransient<AppointmentDAL>();
+builder.Services.AddTransient<TimeSlotDAL>();
 
 var app = builder.Build();
  
