@@ -1,0 +1,39 @@
+﻿<h2 class="mb-4">Appointment Calendar</h2>
+
+<div id="calendar"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="apptModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content p-3">
+            <h4>Appointment Details</h4>
+            <div id="modalBody">Loading...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            height: "auto",
+            events: '/Admin/CalendarEvents',
+
+            eventClick: function (info) {
+                var id = info.event.id;
+
+                $("#modalBody").html("Loading...");
+
+                $.get("/Admin/CalendarEventDetails?id=" + id, function (res) {
+                    $("#modalBody").html(res);
+                });
+
+                $("#apptModal").modal("show");
+            }
+        });
+
+        calendar.render();
+    });
+</script>
