@@ -145,5 +145,27 @@ namespace Online_Appointment_System.DAL
             return dt;
         }
 
+        public int AddAppointmentWithPayment(Appointment model, string paymentId)
+        {
+            using (SqlConnection con = new SqlConnection(_conn))
+            {
+                SqlCommand cmd = new SqlCommand(@"
+            INSERT INTO Appointment 
+            (UserId, ServiceId, TimeSlotId, AppointmentDate, PaymentId, PaymentStatus)
+            OUTPUT INSERTED.AppointmentId
+            VALUES (@UserId, @ServiceId, @TimeSlotId, @AppointmentDate, @PaymentId, 'Paid')
+        ", con);
+
+                cmd.Parameters.AddWithValue("@UserId", model.UserId);
+                cmd.Parameters.AddWithValue("@ServiceId", model.ServiceId);
+                cmd.Parameters.AddWithValue("@TimeSlotId", model.TimeSlotId);
+                cmd.Parameters.AddWithValue("@AppointmentDate", model.AppointmentDate);
+                cmd.Parameters.AddWithValue("@PaymentId", paymentId);
+
+                con.Open();
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
     }
 }

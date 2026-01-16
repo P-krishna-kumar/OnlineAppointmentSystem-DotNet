@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Online_Appointment_System.DAL;
 using Online_Appointment_System.Models;
 using OnlineAppointmentSystem.Helpers;
+using Razorpay.Api;
 using static Online_Appointment_System.DAL.TimeSlatDAL;
 
 namespace Online_Appointment_System.Controllers
@@ -146,7 +147,65 @@ namespace Online_Appointment_System.Controllers
                 return File(ms.ToArray(), "application/pdf", "AppointmentSlip.pdf");
             }
         }
-        
+
+        [HttpPost]
+        //public JsonResult CreateOrder([FromBody] Appointment model)
+        //{
+        //    try
+        //    {
+        //        var key = _config["Razorpay:Key"];
+        //        var secret = _config["Razorpay:Secret"];
+
+        //        RazorpayClient client = new RazorpayClient(key, secret);
+
+        //        int amount = 500 * 100; // Rs 500 appointment fees
+
+        //        Dictionary<string, object> options = new Dictionary<string, object>();
+        //        options.Add("amount", amount);
+        //        options.Add("currency", "INR");
+        //        options.Add("payment_capture", 1);
+
+        //        var order = client.Order.Create(options);
+
+        //        return Json(new
+        //        {
+        //            orderId = order["id"].ToString(),
+        //            amount = amount,
+        //            key = key
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { error = ex.Message });
+        //    }
+        //}
+        [HttpPost]
+        public JsonResult PaymentSuccess([FromBody] dynamic data)
+        {
+            try
+            {
+                string paymentId = data.paymentId;
+                string orderId = data.orderId;
+
+                int userId = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+
+                Appointment model = new Appointment
+                {
+                    UserId = userId,
+                    ServiceId = (int)data.serviceId,
+                    TimeSlotId = (int)data.timeSlotId,
+                    AppointmentDate = (string)data.date
+                };
+
+                int id = _appointmentDAL.AddAppointmentWithPayment(model, paymentId);
+
+                return Json(new { status = true, message = "Appointment Confirmed!", appointmentId = id });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = false, message = ex.Message });
+            }
+        }
 
 
     }
