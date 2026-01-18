@@ -32,10 +32,15 @@ namespace Online_Appointment_System.Controllers
         {
             _appointmentDal = appointmentDal;
         }
+         
+        public AppointmentController(ServiceDAL serviceDAL)
+        {
+            _serviceDAL = serviceDAL;
+        }
 
         [HttpGet]
         public IActionResult Create()
-        {
+        { 
             ViewBag.Services = _serviceDAL.ListService();
             ViewBag.TimeSlots = _slotDAL.ListTimeSlot();
             return View();
@@ -62,18 +67,14 @@ namespace Online_Appointment_System.Controllers
 
         //AJAX APPOINTMENT BOOKING(FULL SYSTEM)
 
-         
-
-
-
-        public AppointmentController(AppointmentDAL appointmentDAL, ServiceDAL serviceDAL,
-    TimeSlotDAL slotDAL, EmailHelper email)
-        {
-            _appointmentDAL = appointmentDAL;
-            _serviceDAL = serviceDAL;
-            _slotDAL = slotDAL;
-            _email = email;
-        }
+          
+        //public AppointmentController(AppointmentDAL appointmentDAL, ServiceDAL serviceDAL, TimeSlotDAL slotDAL, EmailHelper email)
+        //{
+        //    _appointmentDAL = appointmentDAL;
+        //    _serviceDAL = serviceDAL;
+        //    _slotDAL = slotDAL;
+        //    _email = email;
+        //}
 
         [HttpPost]
         public JsonResult AjaxCreate([FromBody] Appointment model)
