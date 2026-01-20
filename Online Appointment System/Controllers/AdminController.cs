@@ -9,21 +9,18 @@ namespace Online_Appointment_System.Controllers
         private readonly AppointmentDAL _apptDal;
         private readonly AppointmentDAL _email;
         private readonly UserDAL _userDal;
-
-        public AdminController(UserDAL userDal)
-        {
-            _userDal = userDal;
-        }
-        public AdminController(AppointmentDAL apptDal)
-        {
-            _apptDal = apptDal;
-        }
         private readonly IConfiguration _config;
 
-        public AdminController(IConfiguration config)
+        public AdminController(UserDAL userDal, AppointmentDAL apptDal, IConfiguration config)
         {
+            _userDal = userDal;
+            _apptDal = apptDal;
             _config = config;
         }
+         
+        
+
+          
         // Appointment List
         public IActionResult Appointments()
         {
