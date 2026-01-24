@@ -16,14 +16,14 @@ namespace Online_Appointment_System.Controllers
         private readonly ServiceDAL _serviceDAL;
         private readonly TimeSlotDAL _slotDAL;
         private readonly EmailHelper _email;
-        //public AppointmentController(AppointmentDAL appointmentDAL, ServiceDAL serviceDAL, TimeSlotDAL slotDAL)
-        //{
-        //    _appointmentDAL = appointmentDAL;
-        //    _serviceDAL = serviceDAL;
-        //    _slotDAL = slotDAL;
-        //}
+        public AppointmentController(AppointmentDAL appointmentDAL, ServiceDAL serviceDAL, TimeSlotDAL slotDAL)
+        {
+            _appointmentDAL = appointmentDAL;
+            _serviceDAL = serviceDAL;
+            _slotDAL = slotDAL;
+        }
 
-        // ✅ ONLY ONE CONSTRUCTOR
+         //✅ ONLY ONE CONSTRUCTOR
 
         private readonly AppointmentDAL _appointmentDal;
 
