@@ -32,11 +32,11 @@ namespace Online_Appointment_System.Controllers
         {
             _appointmentDal = appointmentDal;
         }
-         
-        //public AppointmentController(ServiceDAL serviceDAL)
-        //{
-        //    _serviceDAL = serviceDAL;
-        //}
+
+        public AppointmentController(ServiceDAL serviceDAL)
+        {
+            _serviceDAL = serviceDAL;
+        }
 
         [HttpGet]
         public IActionResult Create()
