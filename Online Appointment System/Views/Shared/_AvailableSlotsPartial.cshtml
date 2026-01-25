@@ -2,6 +2,11 @@
 
 @if (Model.Any())
 {
+
+
+
+
+
     <form asp-action="Confirm" method="post">
         <input type="hidden" name="serviceId" value="@ViewBag.ServiceId" />
         <input type="hidden" name="appointmentDate" value="@ViewBag.AppointmentDate" />
