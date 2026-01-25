@@ -28,15 +28,15 @@ namespace Online_Appointment_System.Controllers
         private readonly AppointmentDAL _appointmentDal;
 
 
-        public AppointmentController(AppointmentDAL appointmentDal)
-        {
-            _appointmentDal = appointmentDal;
-        }
+        //public AppointmentController(AppointmentDAL appointmentDal)
+        //{
+        //    _appointmentDal = appointmentDal;
+        //}
 
-        public AppointmentController(ServiceDAL serviceDAL)
-        {
-            _serviceDAL = serviceDAL;
-        }
+        //public AppointmentController(ServiceDAL serviceDAL)
+        //{
+        //    _serviceDAL = serviceDAL;
+        //}
 
         [HttpGet]
         public IActionResult Create()
