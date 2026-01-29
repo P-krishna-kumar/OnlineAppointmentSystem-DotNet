@@ -5,6 +5,7 @@ using Online_Appointment_System.DAL;
 using Online_Appointment_System.Models;
 using OnlineAppointmentSystem.Helpers;
 using Razorpay.Api;
+using Microsoft.Extensions.Configuration; 
 using static Online_Appointment_System.DAL.TimeSlatDAL;
 
 namespace Online_Appointment_System.Controllers
@@ -26,6 +27,8 @@ namespace Online_Appointment_System.Controllers
          //✅ ONLY ONE CONSTRUCTOR
 
         private readonly AppointmentDAL _appointmentDal;
+        private readonly IConfiguration _config;
+
 
 
         //public AppointmentController(AppointmentDAL appointmentDal)
@@ -150,36 +153,38 @@ namespace Online_Appointment_System.Controllers
         }
 
         [HttpPost]
-        //public JsonResult CreateOrder([FromBody] Appointment model)
-        //{
-        //    try
-        //    {
-        //        var key = _config["Razorpay:Key"];
-        //        var secret = _config["Razorpay:Secret"];
+        public JsonResult CreateOrder([FromBody] Appointment model)
+        {
+            try
+            {
+                var key = _config["Razorpay:Key"];
+                var secret = _config["Razorpay:Secret"];
 
-        //        RazorpayClient client = new RazorpayClient(key, secret);
+                RazorpayClient client = new RazorpayClient(key, secret);
 
-        //        int amount = 500 * 100; // Rs 500 appointment fees
+                int amount = 500 * 100; // Rs 500 appointment fees
 
-        //        Dictionary<string, object> options = new Dictionary<string, object>();
-        //        options.Add("amount", amount);
-        //        options.Add("currency", "INR");
-        //        options.Add("payment_capture", 1);
+                Dictionary<string, object> options = new Dictionary<string, object>();
+                options.Add("amount", amount);
+                options.Add("currency", "INR");
+                options.Add("payment_capture", 1);
 
-        //        var order = client.Order.Create(options);
+                var order = client.Order.Create(options);
 
-        //        return Json(new
-        //        {
-        //            orderId = order["id"].ToString(),
-        //            amount = amount,
-        //            key = key
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { error = ex.Message });
-        //    }
-        //}
+                return Json(new
+                {
+                    orderId = order["id"].ToString(),
+                    amount = amount,
+                    key = key
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
+        }
+
+
         [HttpPost]
         public JsonResult PaymentSuccess([FromBody] dynamic data)
         {
