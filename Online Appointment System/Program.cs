@@ -15,13 +15,14 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<EmailHelper>();
+builder.Services.AddScoped<EmailHelper>();
+
 
 builder.Services.AddTransient<AdminDAL>();
 builder.Services.AddTransient<UserDAL>();
 builder.Services.AddTransient<AppointmentDAL>();
 builder.Services.AddTransient<TimeSlotDAL>();
-
+builder.Services.AddTransient<ServiceDAL>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
