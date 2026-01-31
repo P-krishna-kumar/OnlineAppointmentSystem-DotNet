@@ -1,36 +1,72 @@
 ﻿@model System.Data.DataTable
 
-<h2>My Appointments</h2>
+<div class="container mt-5">
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>AppointmentId</th>
-            <th>Service</th>
-            <th>Date</th>
-            <th>Time Slot</th>
-            <th>Status</th>
-            <th>Download</th>
+    <div class="card border-0 shadow-sm rounded-3 p-4">
 
-        </tr>
-    </thead>
+        <h4 class="fw-semibold text-center mb-4">
+            My Appointments
+        </h4>
 
-    <tbody>
-        @foreach (System.Data.DataRow row in Model.Rows)
-        {
-            <tr>
-                <td>@row["AppointmentId"]</td>
-                <td>@row["ServiceId"]</td>
-                <td>@row["AppointmentDate"]</td>
-                <td>@row["TimeSlotId"]</td>
-                <td>@row["Status"]</td>
-                <td>
-                    <a href="/Appointment/DownloadSlip?id=@row["AppointmentId"]"
-                       class="btn btn-primary btn-sm">
-                        PDF
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light text-center">
+                    <tr>
+                        <th>#</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Time Slot</th>
+                        <th>Status</th>
+                        <th>Slip</th>
+                    </tr>
+                </thead>
+
+                <tbody class="text-center">
+
+                    @foreach (System.Data.DataRow row in Model.Rows)
+                    {
+                        <tr class="shadow-sm rounded-3">
+
+                            <td class="fw-semibold">
+                                @row["AppointmentId"]
+                            </td>
+
+                            <td>
+                                @row["ServiceId"]
+                            </td>
+
+                            <td>
+                                @Convert.ToDateTime(row["AppointmentDate"]).ToString("dd-MMM-yyyy")
+                            </td>
+
+                            <td>
+                                @row["TimeSlotId"]
+                            </td>
+
+                            <td>
+                                <span class="badge bg-success px-3 py-2">
+                                    @row["Status"]
+                                </span>
+                            </td>
+
+                            <td>
+                                <a href="/Appointment/DownloadSlip?id=@row["AppointmentId"]"
+                                   class="btn btn-outline-primary btn-sm rounded-pill">
+                                    Download
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
