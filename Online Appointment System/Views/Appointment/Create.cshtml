@@ -1,40 +1,82 @@
-﻿<h2>Book Appointment (AJAX)</h2>
+﻿<div class="container mt-5">
 
-<div class="card p-4 shadow">
+    <div class="row justify-content-center">
 
-    <div class="form-group">
-        <label>Service</label>
-        <select class="form-control" id="ServiceId">
-            <option value="">--Select--</option>
+        <div class="col-md-6">
 
-            @foreach (System.Data.DataRow row in ViewBag.Services.Rows)
-            {
-                <option value="@row["ServiceId"]">@row["ServiceName"]</option>
-            }
-        </select>
+            <div class="card border-0 shadow-sm p-4 rounded-3">
+
+                <h4 class="fw-semibold text-center mb-4">
+                    Book Appointment
+                </h4>
+
+                <!-- Service -->
+                <div class="mb-3">
+                    <label class="form-label">Service</label>
+
+                    <select class="form-select" id="ServiceId">
+                        <option value="">-- Select Service --</option>
+
+                        @foreach (System.Data.DataRow row in ViewBag.Services.Rows)
+                        {
+                            <option value="@row["ServiceId"]">
+                                @row["ServiceName"]
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Time Slot -->
+                <div class="mb-3">
+                    <label class="form-label">Time Slot</label>
+
+                    <select class="form-select" id="TimeSlotId">
+                        <option value="">-- Select Time Slot --</option>
+
+                        @foreach (System.Data.DataRow row in ViewBag.TimeSlots.Rows)
+                        {
+                            <option value="@row["TimeSlotId"]">
+                                @row["SlotFrom"] - @row["SlotTo"]
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div class="mb-4">
+                    <label class="form-label">Date</label>
+
+                    <input type="date"
+                           class="form-control"
+                           id="AppointmentDate">
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-2">
+
+                    <button class="btn btn-success flex-fill"
+                            id="btnBook">
+                        Book
+                    </button>
+
+                    <button class="btn btn-outline-success flex-fill"
+                            id="btnPay">
+                        Pay & Confirm
+                    </button>
+
+                </div>
+
+                <!-- Message -->
+                <div id="msg"
+                     class="mt-3 text-center small fw-semibold">
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="form-group mt-3">
-        <label>Time Slot</label>
-        <select class="form-control" id="TimeSlotId">
-            <option value="">--Select--</option>
-
-            @foreach (System.Data.DataRow row in ViewBag.TimeSlots.Rows)
-            {
-                <option value="@row["TimeSlotId"]">@row["SlotFrom"] - @row["SlotTo"]</option>
-            }
-        </select>
-    </div>
-
-    <div class="form-group mt-3">
-        <label>Date</label>
-        <input type="date" class="form-control" id="AppointmentDate" />
-    </div>
-
-    <button class="btn btn-success mt-4" id="btnBook">Book Appointment</button>
-    <button class="btn btn-success mt-4" id="btnPay">Pay & Confirm Appointment</button>
-
-    <div id="msg" class="mt-3"></div>
 </div>
 
 <script src="~/js/appointment.js"></script>
