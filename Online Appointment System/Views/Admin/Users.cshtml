@@ -1,52 +1,105 @@
 ﻿@model System.Data.DataTable
 
-<h2>User Management</h2>
+<div class="container mt-4">
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>UserId</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+    <div class="card shadow-lg border-0 rounded-4">
 
-    <tbody>
-        @foreach (System.Data.DataRow row in Model.Rows)
-        {
-            <tr>
-                <td>@row["UserId"]</td>
-                <td>@row["FullName"]</td>
-                <td>@row["Email"]</td>
-                <td>@row["Mobile"]</td>
+        <!-- Header -->
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold">👥 User Management</h5>
+            <span class="badge bg-light text-primary">Total: @Model.Rows.Count</span>
+        </div>
 
-                <td>
-                    @if (Convert.ToInt32(row["Status"]) == 1)
-                    {
-                        <span class="badge bg-success">Active</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-danger">Blocked</span>
-                    }
-                </td>
+        <!-- Body -->
+        <div class="card-body p-0">
 
-                <td>
-                    @if (Convert.ToInt32(row["Status"]) == 1)
-                    {
-                        <a href="/Admin/Block?id=@row["UserId"]" class="btn btn-warning btn-sm">Block</a>
-                    }
-                    else
-                    {
-                        <a href="/Admin/Unblock?id=@row["UserId"]" class="btn btn-success btn-sm">Unblock</a>
-                    }
+            <div class="table-responsive">
 
-                    <a href="/Admin/Delete?id=@row["UserId"]" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                <table class="table table-hover table-striped align-middle mb-0">
+
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+
+                        @foreach (System.Data.DataRow row in Model.Rows)
+                        {
+                            <tr>
+
+                                <td class="fw-bold">@row["UserId"]</td>
+
+                                <td>
+                                    <i class="bi bi-person-circle me-1"></i>
+                                    @row["FullName"]
+                                </td>
+
+                                <td class="text-muted">@row["Email"]</td>
+
+                                <td>@row["Mobile"]</td>
+
+                                <td>
+                                    @if (Convert.ToInt32(row["Status"]) == 1)
+                                    {
+                                        <span class="badge bg-success rounded-pill px-3">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger rounded-pill px-3">
+                                            Blocked
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+
+                                    <div class="btn-group btn-group-sm" role="group">
+
+                                        @if (Convert.ToInt32(row["Status"]) == 1)
+                                        {
+                                            <a href="/Admin/Block?id=@row["UserId"]"
+                                               class="btn btn-outline-warning">
+                                                Block
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Admin/Unblock?id=@row["UserId"]"
+                                               class="btn btn-outline-success">
+                                                Unblock
+                                            </a>
+                                        }
+
+                                        <a href="/Admin/Delete?id=@row["UserId"]"
+                                           class="btn btn-outline-danger"
+                                           onclick="return confirm('Are you sure?')">
+                                            Delete
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
