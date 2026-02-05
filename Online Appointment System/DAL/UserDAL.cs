@@ -8,10 +8,14 @@ namespace Online_Appointment_System.DAL
     {
 
         private readonly string _conn;
+        private readonly string _conStr;
+
+         
 
         public UserDAL(IConfiguration config)
         {
             _conn = config.GetConnectionString("DefaultConnection");
+            _conStr = config.GetConnectionString("DefaultConnection");
         }
 
         // Register User
@@ -133,5 +137,55 @@ namespace Online_Appointment_System.DAL
             }
         }
 
+        
+
+        // Get Profile
+        public User GetUserById(int id)
+        {
+            User user = new User();
+
+            using (SqlConnection con = new SqlConnection(_conStr))
+            {
+                string q = "SELECT * FROM Users WHERE UserId=@Id";
+
+                SqlCommand cmd = new SqlCommand(q, con);
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    user.UserId = Convert.ToInt32(dr["UserId"]);
+                    user.FullName = dr["FullName"].ToString();
+                    user.Email = dr["Email"].ToString();
+                }
+
+                con.Close();
+            }
+
+            return user;
+        }
+
+        // Update Profile
+        public bool UpdateUser(User u)
+        {
+            using (SqlConnection con = new SqlConnection(_conStr))
+            {
+                string q = "UPDATE Users SET FullName=@Name WHERE UserId=@Id";
+
+                SqlCommand cmd = new SqlCommand(q, con);
+
+                cmd.Parameters.AddWithValue("@Name", u.FullName);
+                cmd.Parameters.AddWithValue("@Id", u.UserId);
+
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                con.Close();
+
+                return i > 0;
+            }
+        }
     }
 }
