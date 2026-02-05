@@ -1,15 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Appointment_System.DAL;
+using Online_Appointment_System.Models;
 
 namespace Online_Appointment_System.Controllers
 {
     public class UserController : Controller
     {
         private readonly UserDAL _userDal;
+        private readonly UserDAL _dal;
 
-        public UserController(UserDAL userDal)
+         
+
+        public UserController(UserDAL userDal, UserDAL dal)
         {
             _userDal = userDal;
+            _dal = dal;
         }
 
         public IActionResult Dashboard()
@@ -32,5 +37,36 @@ namespace Online_Appointment_System.Controllers
 
             return View();
         }
+        public IActionResult Profile()
+        {
+            if (HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            int uid = Convert.ToInt32(
+                HttpContext.Session.GetString("UserId"));
+
+            var user = _context.Users
+                .FirstOrDefault(x => x.UserId == uid);
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateProfile(User model)
+        {
+            var user = _context.Users.Find(model.UserId);
+
+            user.FullName = model.FullName;
+
+            _context.SaveChanges();
+
+            TempData["msg"] = "Profile Updated Successfully";
+
+            return RedirectToAction("Profile");
+        }
+
+
     }
 }
