@@ -9,7 +9,7 @@ namespace Online_Appointment_System.Controllers
         private readonly UserDAL _userDal;
         private readonly UserDAL _dal;
 
-         
+
 
         public UserController(UserDAL userDal, UserDAL dal)
         {
@@ -40,33 +40,27 @@ namespace Online_Appointment_System.Controllers
         public IActionResult Profile()
         {
             if (HttpContext.Session.GetString("UserId") == null)
-            {
                 return RedirectToAction("Login", "Account");
-            }
 
             int uid = Convert.ToInt32(
                 HttpContext.Session.GetString("UserId"));
 
-            var user = _context.Users
-                .FirstOrDefault(x => x.UserId == uid);
+            var user = _dal.GetUserById(uid);
 
             return View(user);
         }
 
+        // Update Profile
         [HttpPost]
         public IActionResult UpdateProfile(User model)
         {
-            var user = _context.Users.Find(model.UserId);
+            bool ok = _dal.UpdateUser(model);
 
-            user.FullName = model.FullName;
-
-            _context.SaveChanges();
-
-            TempData["msg"] = "Profile Updated Successfully";
+            if (ok)
+                TempData["msg"] = "Profile Updated";
 
             return RedirectToAction("Profile");
         }
-
 
     }
 }
