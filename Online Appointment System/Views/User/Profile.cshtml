@@ -1,16 +1,23 @@
-﻿@* @model Online_Appointment_System.Models.User
+﻿@model Online_Appointment_System.Models.User
 
-<h2>Profile</h2>
+<h2>My Profile</h2>
 
-<form asp-action="Profile" method="post">
-    <input type="hidden" name="UserID" value="@Model.UserID" />
+<form method="post" asp-action="UpdateProfile">
 
-    <label>Name:</label>
-    <input type="text" name="Name" value="@Model.Name" required /><br /><br />
+    <input type="hidden" asp-for="UserId" />
 
-    <label>Email:</label>
-    <input type="email" name="Email" value="@Model.Email" required /><br /><br />
+    <div class="mb-3">
+        <label>Name</label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
 
-    <button type="submit">Update Profile</button>
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" readonly />
+    </div>
+
+    <button class="btn btn-primary">
+        Update Profile
+    </button>
+
 </form>
- *@
