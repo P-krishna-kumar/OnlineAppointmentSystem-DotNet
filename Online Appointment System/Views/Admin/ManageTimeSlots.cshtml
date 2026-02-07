@@ -1,42 +1,74 @@
-﻿@* @model IEnumerable<Online_Appointment_System.Models.TimeSlot>
-@using Microsoft.AspNetCore.Mvc.Rendering
+﻿@model System.Data.DataTable
 
 @{
-    ViewBag.Title = "Manage Time Slots";
+    ViewData["Title"] = "Manage Time Slots";
 }
 
-<h2>Manage Time Slots</h2>
+<h2 class="mb-3">Manage Time Slots</h2>
 
-<a href="/Admin/AddTimeSlot">Add New Time Slot</a>
-
-<table border="1">
-    <tr>
-        <th>Service</th>
-        <th>Date</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Available</th>
-        <th>Actions</th>
-    </tr>
-    @foreach (var slot in Model)
-    {
-        <tr>
-            <td>@slot.Service.ServiceName</td>
-            <td>@slot.SlotDate.ToString("yyyy-MM-dd")</td>
-            <td>@slot.StartTime.ToString(@"hh\:mm")</td>
-            <td>@slot.EndTime.ToString(@"hh\:mm")</td>
-            <td>@(slot.IsAvailable ? "Yes" : "No")</td>
-            <td>
-                <a href="/Admin/ToggleSlotAvailability/@slot.SlotID">
-                    @(slot.IsAvailable ? "Disable" : "Enable")
-                </a>
-            </td>
-        </tr>
-    }
-</table>
+<a asp-controller="Admin"
+   asp-action="AddTimeSlot"
+   class="btn btn-primary mb-3">
+    + Add New Time Slot
+</a>
 
 @if (TempData["Success"] != null)
 {
-    <p style="color:green">@TempData["Success"]</p>
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
 }
- *@
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Available</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+
+                <td>@row["ServiceName"]</td>
+
+                <td>
+                    @Convert.ToDateTime(row["SlotDate"])
+                    .ToString("dd-MM-yyyy")
+                </td>
+
+                <td>@row["StartTime"]</td>
+
+                <td>@row["EndTime"]</td>
+
+                <td>
+                    @(
+                                    Convert.ToBoolean(row["IsAvailable"])
+                                    ? "Yes" : "No"
+                                    )
+                </td>
+
+                <td>
+                    <a asp-controller="Admin"
+                       asp-action="ToggleSlot"
+                       asp-route-id="@row["SlotId"]"
+                       class="btn btn-sm btn-warning">
+
+                        @(Convert.ToBoolean(row["IsAvailable"])
+                                            ? "Disable" : "Enable")
+                </a>
+            </td>
+
+            </tr>
+                }
+
+    </tbody>
+</table>
