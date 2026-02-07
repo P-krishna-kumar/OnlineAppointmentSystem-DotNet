@@ -1,33 +1,61 @@
-﻿@* @model IEnumerable<Online_Appointment_System.Models.Service>
+﻿@model IEnumerable<Online_Appointment_System.Models.Service>
+
 @{
-    ViewBag.Title = "Manage Services";
+    ViewData["Title"] = "Manage Services";
 }
 
-<h2>Services</h2>
+<h2 class="mb-3">Manage Services</h2>
 
-<a href="/Admin/AddService">Add New Service</a>
-
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
-    @foreach (var service in Model)
-    {
-        <tr>
-            <td>@service.ServiceName</td>
-            <td>@service.Description</td>
-            <td>
-                <a href="/Admin/EditService/@service.ServiceID">Edit</a> |
-                <a href="/Admin/DeleteService/@service.ServiceID">Delete</a>
-            </td>
-        </tr>
-    }
-</table>
+<a asp-controller="Admin"
+   asp-action="AddService"
+   class="btn btn-primary mb-3">
+    + Add New Service
+</a>
 
 @if (TempData["Success"] != null)
 {
-    <p style="color:green">@TempData["Success"]</p>
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
 }
- *@
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th width="200">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var service in Model)
+        {
+            <tr>
+                <td>@service.ServiceName</td>
+                <td>@service.Description</td>
+
+                <td>
+                    <a asp-controller="Admin"
+                       asp-action="EditService"
+                       asp-route-id="@service.ServiceId"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a asp-controller="Admin"
+                       asp-action="DeleteService"
+                       asp-route-id="@service.ServiceId"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?')">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
