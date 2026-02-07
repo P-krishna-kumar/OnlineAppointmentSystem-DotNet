@@ -1,1 +1,84 @@
-﻿ 
+﻿@model System.Data.DataTable
+
+@{
+    ViewData["Title"] = "Manage Appointments";
+}
+
+<h2 class="mb-3">Manage Appointments</h2>
+
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["msg"]
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>User Name</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (System.Data.DataRow row in Model.Rows)
+        {
+            <tr>
+
+                <td>@row["AppointmentId"]</td>
+
+                <td>@row["FullName"]</td>
+
+                <td>@row["ServiceName"]</td>
+
+                <td>
+                    @Convert.ToDateTime(row["SlotDate"])
+                    .ToString("dd-MM-yyyy")
+                </td>
+
+                <td>
+                    @row["StartTime"] - @row["EndTime"]
+                </td>
+
+                <td>
+                    <span class="badge bg-info">
+                        @row["Status"]
+                    </span>
+                </td>
+
+                <td>
+
+                    @if (row["Status"].ToString() == "Pending")
+                    {
+                        <a href="/Admin/Approve/@row["AppointmentId"]"
+                           class="btn btn-success btn-sm">
+                            Approve
+                        </a>
+
+                        <a href="/Admin/Cancel/@row["AppointmentId"]"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Cancel this appointment?')">
+                            Cancel
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Done</span>
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
