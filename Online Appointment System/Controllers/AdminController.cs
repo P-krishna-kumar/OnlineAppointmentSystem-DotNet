@@ -118,6 +118,35 @@ namespace Online_Appointment_System.Controllers
             return Json(events);
         }
 
+        public IActionResult ManageAppointments()
+        {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+                return RedirectToAction("Login", "Account");
+
+            DataTable dt = _dal.GetAllAppointments();
+
+            return View(dt);
+        }
+
+
+        public IActionResult Approve(int id)
+        {
+            _dal.UpdateStatus(id, "Approved");
+
+            TempData["msg"] = "Appointment Approved";
+
+            return RedirectToAction("ManageAppointments");
+        }
+
+        public IActionResult Cancel(int id)
+        {
+            _dal.UpdateStatus(id, "Cancelled");
+
+            TempData["msg"] = "Appointment Cancelled";
+
+            return RedirectToAction("ManageAppointments");
+        }
+
         public IActionResult CalendarEventDetails(int id)
         {
             var dt = _apptDal.GetAppointmentById(id);
