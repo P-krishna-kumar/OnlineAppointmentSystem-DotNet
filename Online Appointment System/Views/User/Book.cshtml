@@ -1,35 +1,79 @@
-﻿<h2>Book Appointment</h2>
+﻿@{
+    ViewData["Title"] = "Book Appointment";
+}
 
-<form id="bookForm" method="post" asp-action="GetAvailableSlots">
-    <label>Select Service:</label>
-    <select name="serviceId" id="serviceId">
-        @foreach (var s in ViewBag.Services)
-        {
-            <option value="@s.ServiceID">@s.ServiceName</option>
-        }
-    </select>
+<div class="glass-wrapper">
+    <div class="glass-card">
+        <div class="glass-header text-center">
+            <h2 class="fw-bold">Book Appointment</h2>
+            <p class="text-white-50">Select your preferences to find available slots</p>
+        </div>
 
-    <label>Select Date:</label>
-    <input type="date" name="selectedDate" id="selectedDate" required />
+        <form id="bookForm">
+            <div class="glass-group">
+                <label class="glass-label">Select Service</label>
+                <div class="glass-input-wrapper">
+                    <i class="bi bi-gear-fill input-icon"></i>
+                    <select class="glass-control" name="serviceId" id="serviceId">
+                        <option value="" disabled selected>Choose a service...</option>
+                        @if (ViewBag.Services != null)
+                        {
+                            foreach (var s in ViewBag.Services)
+                            {
+                                <option value="@s.ServiceID">@s.ServiceName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
 
-    <button type="button" onclick="getSlots()">Check Available Slots</button>
-</form>
+            <div class="glass-group">
+                <label class="glass-label">Select Date</label>
+                <div class="glass-input-wrapper">
+                    <i class="bi bi-calendar-event input-icon"></i>
+                    <input type="date" class="glass-control" name="selectedDate" id="selectedDate" required />
+                </div>
+            </div>
 
-<div id="slots">
-    <!-- Available slots will load here -->
+            <div class="text-center mt-5">
+                <button type="button" class="glass-btn" onclick="getSlots()">
+                    Check Available Slots
+                </button>
+            </div>
+        </form>
+
+        <div id="slots" class="mt-4 fade-in">
+        </div>
+    </div>
 </div>
 
-<script>
-    function getSlots() {
-        var serviceId = document.getElementById("serviceId").value;
-        var selectedDate = document.getElementById("selectedDate").value;
+@section Scripts {
+    <script>
+        function getSlots() {
+            const serviceId = document.getElementById("serviceId").value;
+            const selectedDate = document.getElementById("selectedDate").value;
+            const slotsDiv = document.getElementById("slots");
 
-        fetch('/User/GetAvailableSlots', {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ serviceId: serviceId, selectedDate: selectedDate })
-        })
-        .then(response => response.text())
-        .then(html => { document.getElementById("slots").innerHTML = html; });
-    }
-</script>
+            if (!selectedDate || !serviceId) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            // Loading state
+            slotsDiv.innerHTML = '<div class="text-center py-3"><div class="spinner-border text-light" role="status"></div></div>';
+
+            fetch('/User/GetAvailableSlots', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ serviceId: serviceId, selectedDate: selectedDate })
+            })
+            .then(response => response.text())
+            .then(html => {
+                slotsDiv.innerHTML = html;
+            })
+            .catch(err => {
+                slotsDiv.innerHTML = '<p class="text-danger text-center">Something went wrong!</p>';
+            });
+        }
+    </script>
+}
