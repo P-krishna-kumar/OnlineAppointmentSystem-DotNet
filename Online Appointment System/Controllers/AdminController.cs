@@ -10,6 +10,7 @@ namespace Online_Appointment_System.Controllers
         private readonly AppointmentDAL _email;
         private readonly UserDAL _userDal;
         private readonly IConfiguration _config;
+        private object _dal;
 
         public AdminController(UserDAL userDal, AppointmentDAL apptDal, IConfiguration config)
         {
@@ -118,34 +119,34 @@ namespace Online_Appointment_System.Controllers
             return Json(events);
         }
 
-        public IActionResult ManageAppointments()
-        {
-            if (HttpContext.Session.GetString("Role") != "Admin")
-                return RedirectToAction("Login", "Account");
+        //public IActionResult ManageAppointments()
+        //{
+        //    if (HttpContext.Session.GetString("Role") != "Admin")
+        //        return RedirectToAction("Login", "Account");
 
-            DataTable dt = _dal.GetAllAppointments();
+        //    DataTable dt = _dal.GetAllAppointments();
 
-            return View(dt);
-        }
+        //    return View(dt);
+        //}
 
 
-        public IActionResult Approve(int id)
-        {
-            _dal.UpdateStatus(id, "Approved");
+        //public IActionResult Approve(int id)
+        //{
+        //    _dal.UpdateStatus(id, "Approved");
 
-            TempData["msg"] = "Appointment Approved";
+        //    TempData["msg"] = "Appointment Approved";
 
-            return RedirectToAction("ManageAppointments");
-        }
+        //    return RedirectToAction("ManageAppointments");
+        //}
 
-        public IActionResult Cancel(int id)
-        {
-            _dal.UpdateStatus(id, "Cancelled");
+        //public IActionResult Cancel(int id)
+        //{
+        //    _dal.UpdateStatus(id, "Cancelled");
 
-            TempData["msg"] = "Appointment Cancelled";
+        //    TempData["msg"] = "Appointment Cancelled";
 
-            return RedirectToAction("ManageAppointments");
-        }
+        //    return RedirectToAction("ManageAppointments");
+        //}
 
         public IActionResult CalendarEventDetails(int id)
         {
